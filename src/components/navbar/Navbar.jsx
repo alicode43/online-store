@@ -13,6 +13,16 @@ function Navbar() {
 
   const [open,setOpen]=useState(false);
 
+  const user =JSON.parse(localStorage.getItem('user'));
+  // console.log(user.user.email);
+
+  const logout= ()=>{
+    console.log("log Out is clicked");
+    localStorage.clear('user');
+    window.location.href = "/"
+  }
+
+
   return (
     <div className="bg-white sticky top-0 z-50  "  >
       {/* Mobile menu */}
@@ -63,15 +73,19 @@ function Navbar() {
                   </div>
 
                   <div className="flow-root">
+
+                  {user?.user?.email === 'rali@gmail.com' ?
                     <Link to={'/dashboard'} className="-m-2 block p-2 font-medium text-gray-900" style={{ color: mode === 'dark' ? 'white' : '', }}>
                       admin
-                    </Link>
+                    </Link>: ""}
                   </div>
 
                   <div className="flow-root">
-                    <a className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer" style={{ color: mode === 'dark' ? 'white' : '', }}>
+                   {user?
+                    <a onClick={logout} className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer" style={{ color: mode === 'dark' ? 'white' : '', }}>
                       Logout
-                    </a>
+                    </a>:""
+                    }
                   </div>
                   <div className="flow-root">
                     <Link to={'/'} className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer">
@@ -138,13 +152,18 @@ function Navbar() {
                   <Link to={'/order'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
                     Order
                   </Link>
+                  {user?.user?.email === 'rali@gmail.com' ?
                   <Link to={'/dashboard'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
                     Admin
-                  </Link>
+                  </Link>: ""
+                  }
 
-                  <a className="text-sm font-medium text-gray-700 cursor-pointer  " style={{ color: mode === 'dark' ? 'white' : '', }}>
+                  {user?
+                  <a onClick={logout} className="text-sm font-medium text-gray-700 cursor-pointer  " style={{ color: mode === 'dark' ? 'white' : '', }}>
                     Logout
-                  </a>
+                  </a>:""
+                  }
+
                 </div>
 
                 <div className="hidden lg:ml-8 lg:flex">
