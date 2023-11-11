@@ -17,6 +17,11 @@ function DashboardTab() {
     function openModal() {
         setIsOpen(true)
     }
+
+    const add=()=>{
+        window.location.href="/addproduct";
+    }
+
     return (
         <>
             <div className="container mx-auto">
@@ -32,7 +37,7 @@ function DashboardTab() {
                                 <button type="button" className="font-medium border-b-2 border-pink-500 bg-[#605d5d12] text-pink-500  hover:shadow-pink-700  rounded-lg text-xl shadow-[inset_0_0_8px_rgba(0,0,0,0.6)]    px-5 py-1.5 text-center ">
                                     <div className="flex gap-2 items-center">
                                         <AiFillShopping /> Order
-                                    </div>
+            </div>
                                 </button>
                             </Tab>
                             <Tab>
@@ -50,6 +55,7 @@ function DashboardTab() {
                                 <div className=" flex justify-end">
                                     <button
                                         type="button"
+                                        onClick={add}
                                         className="focus:outline-none text-white bg-pink-600 shadow-[inset_0_0_10px_rgba(0,0,0,0.6)] border hover:bg-pink-700 outline-0 font-medium rounded-lg text-sm px-5 py-2.5 mb-2" style={{ backgroundColor: mode === 'dark' ? 'rgb(46 49 55)' : '', color: mode === 'dark' ? 'white' : '', }} > <div className="flex gap-2 items-center">
                                             Add Product <FaCartPlus size={20} />
                                         </div></button>

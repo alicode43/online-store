@@ -37,19 +37,27 @@ function MyState(props) {
   });
 
  const addProduct =async ()=>{
+    console.log(products);
   if (products.title === null || products.price == null || products.imageUrl == null || products.category == null || products.description == null) {
     return toast.error('Please fill all fields');
   }
+  console.log("hi");
   setLoading(true)
   try {
     const productRef = collection(fireDB, "products")
     await addDoc(productRef, products)
     toast.success("Product Add successfully")
+
+    setTimeout(() => {
+      window.location.href="/dashboard"
+    }, 1000);
+
+  
     getProductData()
     closeModal()
     setLoading(false)
   } catch (error) {
-    console.log(error)
+    console.log("error is"+error)
     setLoading(false)
   }
   setProducts("")
@@ -89,7 +97,7 @@ useEffect(()=>{
 },[]);
 
   return (
-    <MyContext.Provider value={ { toggleMode, mode, loading,setLoading ,products,setProduct,addProduct,product}}>
+    <MyContext.Provider value={ { toggleMode, mode, loading,setLoading ,products,setProducts,addProduct,product}}>
        {props.children}
     </MyContext.Provider>
   )
