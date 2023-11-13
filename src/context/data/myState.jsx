@@ -66,38 +66,44 @@ function MyState(props) {
   
   const [product,setProduct]=useState([]);
 
-  const getProductData = async ()=>{
 
-    setLoading(true);
 
-    try{
-      const q=query(
-        collection(fireDB, 'products'),
-        orderBy('times')
+  const getProductData = async () => {
+    setLoading(true)
+    try {
+      const q = query(
+        collection(fireDB, "products"),
+        orderBy("time"),
+        // limit(5)
       );
-      const data=onSnapshot(q, (QuerySnapshot)=>{
-        let productArray=[];
-        QuerySnapshot.forEach((doc)=>{
-          productArray.push({...doc.data(), id:doc.id});
+      const data = onSnapshot(q, (QuerySnapshot) => {
+        let productsArray = [];
+        QuerySnapshot.forEach((doc) => {
+          productsArray.push({ ...doc.data(), id: doc.id });
         });
-
-        setProduct(productArray);
+        setProduct(productsArray);
+        console.log(productsArray);
+        console.log("data is " + data);
         setLoading(false);
       });
+      return () => data;
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
     }
-    catch(error){
-      console.log(error);
-      setLoading(false);
-    }
-    
   }
 
-useEffect(()=>{
-  getProductData();
+
+ 
+  useEffect(()=>{
+    getProductData();
+    // console.log("getProductData()");
 },[]);
 
   return (
-    <MyContext.Provider value={ { toggleMode, mode, loading,setLoading ,products,setProducts,addProduct,product}}>
+    <MyContext.Provider value={ { 
+      toggleMode, mode, loading,setLoading ,
+      products,setProducts,addProduct,product}}>
        {props.children}
     </MyContext.Provider>
   )
