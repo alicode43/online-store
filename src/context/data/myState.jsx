@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import MyContext from './myContext';
 import { fireDB } from '../../firebase/firebaseConfig';
-import { QuerySnapshot, Timestamp, addDoc, collection, onSnapshot, onSnapshotsInSync, orderBy, query } from 'firebase/firestore';
+import { Timestamp, addDoc, collection,doc,setDoc, deleteDoc, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { toast } from 'react-toastify';
+
 
 function MyState(props) {
   const [mode, setMode]= useState('light');
@@ -100,13 +101,53 @@ function MyState(props) {
     // console.log("getProductData()");
 },[]);
 
-  return (
-    <MyContext.Provider value={ { 
-      toggleMode, mode, loading,setLoading ,
-      products,setProducts,addProduct,product}}>
-       {props.children}
-    </MyContext.Provider>
-  )
+const editHandle =(item)=>{
+  setProducts(item);
+  console.log(item);
 }
+
+const updateProduct =async ()=>{
+  setLoading(true)
+  try{
+    await setDoc(doc(fireDB, "products", products.id),products)
+    toast.success("Product Update successfully")
+    window.location.href="/dashboard"
+    setLoading(false)
+  }catch(error){
+    console.log(error)
+    setLoading(false)
+  }  
+
+}
+
+const deleteProduct =async (item)=>{
+  setLoading(true)
+  try{
+    await deleteDoc(doc(fireDB, "products", item.id));
+    toast.success("Product Delete successfully")
+    getProductData()
+    setLoading(false)
+  }catch(error){
+    console.log(error)
+    setLoading(false)
+  }
+
+
+}
+
+
+return (
+  <MyContext.Provider value={ { 
+    toggleMode, mode, loading,setLoading ,
+    products,setProducts,addProduct,product,
+    deleteProduct,updateProduct,editHandle}}>
+     {props.children}
+  </MyContext.Provider>
+)
+}
+
+
+  
+
 
 export default MyState
