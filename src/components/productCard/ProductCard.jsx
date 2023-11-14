@@ -18,7 +18,7 @@ function ProductCard() {
 
         
     console.log(product);
-        dispatch(addToCart(JSON.stringify(product)));
+        dispatch(addToCart(product));
         toast.success('add to cart');
     }
    
