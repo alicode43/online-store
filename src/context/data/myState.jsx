@@ -1,8 +1,10 @@
-import  { useEffect, useState } from 'react'
+import  React,{ useEffect, useState ,p} from 'react'
 import MyContext from './myContext';
 import { fireDB } from '../../firebase/firebaseConfig';
 import { Timestamp, addDoc, collection,doc,setDoc, deleteDoc, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { toast } from 'react-toastify';
+import Modal from '../../components/modal/Modal';
+
 
 
 function MyState(props) {
@@ -106,21 +108,32 @@ const editHandle =(item)=>{
   console.log(item);
 }
 
+
+
 const updateProduct =async ()=>{
   setLoading(true)
+  console.log("products")
   try{
     await setDoc(doc(fireDB, "products", products.id),products)
     toast.success("Product Update successfully")
+    getProductData();
     window.location.href="/dashboard"
     setLoading(false)
   }catch(error){
+
+    console.log("error")
     console.log(error)
     setLoading(false)
   }  
 
 }
 
+
+
+
+
 const deleteProduct =async (item)=>{
+  setLoading(true)
   setLoading(true)
   try{
     await deleteDoc(doc(fireDB, "products", item.id));
@@ -132,12 +145,11 @@ const deleteProduct =async (item)=>{
     setLoading(false)
   }
 
-
 }
 
 
 return (
-  <MyContext.Provider value={ { 
+  <MyContext.Provider value={ {
     toggleMode, mode, loading,setLoading ,
     products,setProducts,addProduct,product,
     deleteProduct,updateProduct,editHandle}}>
