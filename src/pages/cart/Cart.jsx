@@ -112,7 +112,7 @@ function Cart() {
       }
       console.log("Buy Now");
       try {
-        const orderRef = collection(fireDB, "orders");
+        const orderRef = collection(fireDB, "order");
         console.log("orderRef: " + orderRef);
         addDoc(orderRef, orderInfo);
       } 

@@ -1,7 +1,7 @@
 import  React,{ useEffect, useState ,p} from 'react'
 import MyContext from './myContext';
 import { fireDB } from '../../firebase/firebaseConfig';
-import { Timestamp, addDoc, collection,doc,setDoc, deleteDoc, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { Timestamp, addDoc, getDocs, collection,doc,setDoc, deleteDoc, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import Modal from '../../components/modal/Modal';
 
@@ -85,8 +85,8 @@ function MyState(props) {
           productsArray.push({ ...doc.data(), id: doc.id });
         });
         setProduct(productsArray);
-        console.log(productsArray);
-        console.log("data is " + data);
+        // console.log(productsArray);
+        // console.log("data is " + data);
         setLoading(false);
       });
       return () => data;
@@ -147,12 +147,38 @@ const deleteProduct =async (item)=>{
 
 }
 
+const [order, setOrder] =useState([]);
+
+const getOrderData = async () => {
+  console.log("getOrderData");
+  setLoading(true)
+  try{
+    const result=await getDocs(collection(fireDB, "order"));
+    // console.log(result)
+    const orderArray =[];
+    result.forEach((doc)=>{
+      orderArray.push(doc.data())
+      setLoading(false)
+    });
+    setOrder(orderArray);
+    setLoading(false);
+  }
+  catch(error){
+    console.log(error)
+    setLoading(false)
+  }
+
+}
+
+useEffect(()=>{
+  getOrderData();
+},[]);
 
 return (
   <MyContext.Provider value={ {
     toggleMode, mode, loading,setLoading ,
     products,setProducts,addProduct,product,
-    deleteProduct,updateProduct,editHandle}}>
+    deleteProduct,updateProduct,editHandle,order}}>
      {props.children}
   </MyContext.Provider>
 )
