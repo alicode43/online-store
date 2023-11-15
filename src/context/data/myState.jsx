@@ -182,9 +182,9 @@ const getUserData = async () => {
       setLoading(false)
     });
     setUser(usersArray);
-    console.log("user is")
-    console.log(usersArray)
-    console.log("user was")
+    // console.log("user is")
+    // console.log(usersArray)
+    // console.log("user was")
     setLoading(false);
   } catch (error) {
     console.log(error)
@@ -206,11 +206,18 @@ useEffect(() => {
 }, []);
 
 
+const [searchkey, setSearchkey] = useState('')
+const [filterType, setFilterType] = useState('')
+const [filterPrice, setFilterPrice] = useState('')
+
+
 return (
   <MyContext.Provider value={ {
     toggleMode, mode, loading,setLoading ,
     products,setProducts,addProduct,product,
-    deleteProduct,updateProduct,editHandle,order,user}}>
+    deleteProduct,updateProduct,editHandle,order,user,
+    searchkey,setSearchkey,filterType,filterPrice,
+    setFilterPrice,setFilterType}}>
      {props.children}
   </MyContext.Provider>
 )

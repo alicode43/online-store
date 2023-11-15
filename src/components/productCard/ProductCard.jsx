@@ -7,11 +7,12 @@ import { toast } from 'react-toastify'
 
 function ProductCard() {
     const context = useContext(myContext)
-    const { mode, product  } = context
+    const { mode, product,searchkey,setSearchkey,filterType,filterPrice,
+        setFilterPrice,setFilterType } = context
 
     const dispatch=useDispatch()
     const cartItems=useSelector((state)=>state.cart)
-    console.log(cartItems);
+    // console.log(cartItems);
 
 
     const addCart = (product) => {
@@ -35,7 +36,10 @@ function ProductCard() {
                 </div>
 
                 <div className="flex flex-wrap -m-4">
-                  {product.map((item,index) => {
+                {console.log(product)}
+                {product.filter((obj) => obj.title.toLowerCase().includes(searchkey))
+                        .filter((obj) => obj.category.toLowerCase().includes(filterType))
+                        .filter((obj) => obj.price.includes(filterPrice)).map((item, index) => {
                         const {title,price,description,imageUrl}=item;
                         return(
 
