@@ -150,7 +150,7 @@ const deleteProduct =async (item)=>{
 const [order, setOrder] =useState([]);
 
 const getOrderData = async () => {
-  console.log("getOrderData");
+  // console.log("getOrderData");
   setLoading(true)
   try{
     const result=await getDocs(collection(fireDB, "order"));
@@ -170,15 +170,47 @@ const getOrderData = async () => {
 
 }
 
-useEffect(()=>{
+const [user, setUser] = useState([]);
+
+const getUserData = async () => {
+  setLoading(true)
+  try {
+    const result = await getDocs(collection(fireDB, "users"))
+    const usersArray = [];
+    result.forEach((doc) => {
+      usersArray.push(doc.data());
+      setLoading(false)
+    });
+    setUser(usersArray);
+    console.log("user is")
+    console.log(usersArray)
+    console.log("user was")
+    setLoading(false);
+  } catch (error) {
+    console.log(error)
+    setLoading(false)
+  }
+}
+
+
+
+
+// useEffect(()=>{
+//   getOrderData();
+// },[]);
+
+useEffect(() => {
+  getProductData();
   getOrderData();
-},[]);
+  getUserData();
+}, []);
+
 
 return (
   <MyContext.Provider value={ {
     toggleMode, mode, loading,setLoading ,
     products,setProducts,addProduct,product,
-    deleteProduct,updateProduct,editHandle,order}}>
+    deleteProduct,updateProduct,editHandle,order,user}}>
      {props.children}
   </MyContext.Provider>
 )
